@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Index</title>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                $('#form').submit(function(event){
+                    event.preventDefault();
+                    var data = [{ "Pname":"$('input[name="Pname"]').val()" , "Du":"$('input[name="Du"]').val()" , "Dist":"$('input[name="Dist"]').val()" }];
+                    $.ajax({
+                        type: 'POST',
+                        url: '/planeten',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json'
+                        }).done(function() {
+                            alert(data.name+' wurde hinzugefügt.');
+                        }).fail(function(e) {
+                            alert(data.name+' konnte nicht hinzugefügt werden. ('+JSON.stringify(e)+')');
+                        });
+                });
+            });
+                                                                                                                                                
+                                                                                                                                                        
+            
+        </script>
+    </head>
+    <body>
+        <form id="form" action="http://localhost:3000/planeten">Planetenname
+            <input name="Pname" type="text"></input>
+            <br>Durchmesser <input name="Du" type="text"></input>
+            <br>Entfernung zur Sonne <input name="Dist" type="text"></input>
+            <br> <input type="submit" formmethod="post" value="Absenden"></input>
+        </form>   
+    </body>
+</html>
+
+planeten[planeten.length].Pname = $('input[name="Pname"]'.val();
+planeten[planeten.length].Du = $('input[name="Du"]'.val();
+planeten[planeten.length].Dist = $('input[name="Dist"]'.val();
+//alert( $('input[name="planet"]'.val() );
