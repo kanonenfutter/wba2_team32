@@ -1,0 +1,11 @@
+{
+  "name": "aufgaben_2",
+  "version": "0.1.0",
+  "description": "aufgaben_2",
+  "main": "app2.js",
+  "author": "Gruppe 32",
+  "readmeFilename": "../README.md",
+  "dependencies": {
+    "express": "*"
+  }
+}

@@ -1,0 +1,46 @@
+<!-- Notes: Codecleaning, unique and safe IDselector,fixed AJAX .done,add link to table, lowercase variables, -formmethod, action path changed, changed data from array to tuple  -->
+<html>
+    <head>
+        <title>Index</title>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                $('#form').submit(function(event){
+                    //Verhindert das Standard-Verhalten von submit
+                    event.preventDefault();
+                    // Formulardaten werden als JSON Objekt gespeichert
+                    var data = {
+                        pname: $('#pname').val() ,
+                        du:    $('#du').val() ,
+                        dist:  $('#dist').val()};
+                    $.ajax({
+                        type: 'POST',
+                        url: '/planeten',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json'
+                        }).done(function() {
+                            alert(data.pname+' wurde hinzugefügt.');
+                        }).fail(function(e) {
+                            alert(data.pname+' konnte nicht hinzugefügt werden. ('+JSON.stringify(e)+')');
+                        });
+                });
+            });                                                                                                         
+        </script>
+    </head>
+    <body>
+        <!-- Formular fuer das Hinzufügen neuer Planeten-->
+        <form name="form" id="form" action="/planeten" method="POST">
+            Planetenname<input name="pname" id="pname" type="text"></input><br>
+            Durchmesser <input name="du" id="du" type="text"></input><br>
+            Entfernung zur Sonne <input name="dist" id="dist" type="text"></input><br> 
+            <input type="submit" name="submit" value="Absenden"></input>
+        </form>
+        <!-- Link zur Tabelle-->
+        <a href="/planeten">Tabelle</a>
+    </body>
+</html>
+
+<!--planeten[planeten.length].Pname = $('input[name="Pname"]'.val();
+planeten[planeten.length].Du = $('input[name="Du"]'.val();
+planeten[planeten.length].Dist = $('input[name="Dist"]'.val();
+//alert( $('input[name="planet"]'.val() );--->
