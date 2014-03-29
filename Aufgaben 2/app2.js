@@ -12,7 +12,10 @@ var planeten =
 { pname:'Venus' , du:12100 , dist:108200000}
 ];
 
+//Verzeichnisdefinierung fuer den Zugriff von Aussen
 app2.use(express.static(__dirname+'/public'));
+
+//benötigt um Informationen des Requests zu parsen
 app2.use(express.json());
 app2.use(express.urlencoded());
 

@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Index</title>
+		<!--Einbindung von jQuery (Nur mit Internetverbindung?)-->
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript">
             $(function(){
@@ -13,6 +14,7 @@
                         pname: $('#pname').val() ,
                         du:    $('#du').val() ,
                         dist:  $('#dist').val()};
+					//Clientseitiges Ajax Script (AJAX Post) 
                     $.ajax({
                         type: 'POST',
                         url: '/planeten',
