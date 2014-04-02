@@ -1,7 +1,8 @@
 //Notes: added http module, fixed json formating, changed table row code, added post
 var http = require('http');
 var express = require('express');
-var app2 = express();
+var app3 = express();
+var mongoDB = require('mongoskin');
 
 
 //Array mit JSON Objekte
@@ -13,15 +14,15 @@ var planeten =
 ];
 
 //Verzeichnisdefinierung fuer den Zugriff von Aussen
-app2.use(express.static(__dirname+'/public'));
+app3.use(express.static(__dirname+'/public'));
 
 //benötigt um Informationen des Requests zu parsen
-app2.use(express.json());
-app2.use(express.urlencoded());
+app3.use(express.json());
+app3.use(express.urlencoded());
 
 
 //get-response auf die Ressource /planeten
-app2.get('/planeten', function (req, res) {
+app3.get('/planeten', function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     //Schreibt den statischen Teil des html Dokuments: title, Ueberschrift und Tabellenkopf
     res.write('<head><title>Planeten der Milchstrasse</title></head>');
@@ -37,7 +38,7 @@ app2.get('/planeten', function (req, res) {
 }); 
 
 //post-response auf die Ressource /planeten
-app2.post('/planeten', function(req, res) {
+app3.post('/planeten', function(req, res) {
     //Daten aus der Response wird in der Konsole angezeigt
     console.log(req.body);
     //Daten werden zum Array hinzugefügt
@@ -46,7 +47,7 @@ app2.post('/planeten', function(req, res) {
 });
 
 //Webserver wird auf Port 3000 erstellt mit Ausgabe in der Konsole. Yay.
-app2.listen(3000, function(){
+app3.listen(3000, function(){
 	console.log('Express server is running...');
 });
     
