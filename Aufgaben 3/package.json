@@ -1,11 +1,9 @@
 {
-  "name": "aufgaben_2",
-  "version": "0.1.0",
-  "description": "aufgaben_2",
-  "main": "app2.js",
-  "author": "Gruppe 32",
-  "readmeFilename": "../README.md",
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
   "dependencies": {
-    "express": "*"
+    "express": "3.1.0",
+    "mongodb": "*"
   }
 }

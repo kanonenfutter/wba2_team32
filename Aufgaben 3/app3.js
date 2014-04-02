@@ -4,14 +4,44 @@ var express = require('express');
 var app3 = express();
 var mongoDB = require('mongoskin');
 
+// Verbindung zur mongoDB
+
+var db =mongoDB.db('mongodb://localhost/mydb?auto_reconnect=true',{
+    safe: true
+});
+
+// Collection "planeten" binden
+
+db.bind("planeten");
+
+var planetenCollection = db.planeten;
+
+/* Dokumente einfügen*/
+
+planetenCollection.insert(
+    {
+    pname: "Uranus", 
+    du: "51100",
+    dist:"2877000000"},
+    {
+    pname: "Mars", 
+    du: "6800",
+    dist:"227900000"},
+    {
+    pname: "Venus", 
+    du: "12100",
+    dist:"108200000"});
+    
+
+
 
 //Array mit JSON Objekte
-var planeten = 
+/*var planeten = 
 [
 { pname:'Erde' , du:12800 , dist:149600000 },
 { pname:'Mars' , du:6800 , dist:227900000 },
 { pname:'Venus' , du:12100 , dist:108200000}
-];
+];*/
 
 //Verzeichnisdefinierung fuer den Zugriff von Aussen
 app3.use(express.static(__dirname+'/public'));
