@@ -1,47 +1,33 @@
-//Notes: added http module, fixed json formating, changed table row code, added post
+//Notes: added mongoDB, Pubsub, Errorhandling, edited .post and .get, human readable variables :P, 
 var http = require('http');
 var express = require('express');
-var app3 = express();
 var mongoDB = require('mongoskin');
+var faye = require('faye');
+
+var app3 = express();
+var server = http.createServer(app3);
 
 // Verbindung zur mongoDB
 
-var db =mongoDB.db('mongodb://localhost/mydb?auto_reconnect=true',{
-    safe: true
-});
+var db =mongoDB.db('mongodb://localhost/mydb?auto_reconnect=true',{safe: true});
 
 // Collection "planeten" binden
 
-db.bind("planeten");
+db.bind('planeten');
 
 var planetenCollection = db.planeten;
 
-/* Dokumente einfügen*/
+// Faye
+// NoteAdapter konfigurieren
+var bayeux = new faye.NodeAdapter({
+	mount: '/faye',
+	timeout: 45
+});
 
-planetenCollection.insert(
-    {
-    pname: "Uranus", 
-    du: "51100",
-    dist:"2877000000"},
-    {
-    pname: "Mars", 
-    du: "6800",
-    dist:"227900000"},
-    {
-    pname: "Venus", 
-    du: "12100",
-    dist:"108200000"});
-    
-
-
-
-//Array mit JSON Objekte
-/*var planeten = 
-[
-{ pname:'Erde' , du:12800 , dist:149600000 },
-{ pname:'Mars' , du:6800 , dist:227900000 },
-{ pname:'Venus' , du:12100 , dist:108200000}
-];*/
+// Nodeadapter zum http-Server hinzufuegen
+bayeux.attach(server);
+//PubSub-Client erzeugen
+var pubSubClient = bayeux.getClient();
 
 //Verzeichnisdefinierung fuer den Zugriff von Aussen
 app3.use(express.static(__dirname+'/public'));
@@ -50,34 +36,54 @@ app3.use(express.static(__dirname+'/public'));
 app3.use(express.json());
 app3.use(express.urlencoded());
 
-
-//get-response auf die Ressource /planeten
-app3.get('/planeten', function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    //Schreibt den statischen Teil des html Dokuments: title, Ueberschrift und Tabellenkopf
-    res.write('<head><title>Planeten der Milchstrasse</title></head>');
-    res.write('<body><h2>Unsere Planeten</h2><table><tr><th>Planetenname</th><th>Durchmesser</th><th>Entfernung zur Sonne</th></tr>');
-    //Tabelle wird des Arrays planeten geschrieben
-    for (var i = 0; i < planeten.length; i++) {
-        res.write('<tr><td>' + planeten[i].pname + '</td><td>' + planeten[i].du + '</td><td>' + planeten[i].dist + '</td></tr>');
-    }
+//Errorhandling
+app3.use(function(error, req, res, next) {
+    console.error(error.stack);
+    res.end(error.message);
     
-    res.write('</table>');
-    res.write('</body>');
-    res.end();
-}); 
-
-//post-response auf die Ressource /planeten
-app3.post('/planeten', function(req, res) {
-    //Daten aus der Response wird in der Konsole angezeigt
-    console.log(req.body);
-    //Daten werden zum Array hinzugefügt
-    planeten.push(req.body);
-    res.end();
 });
 
-//Webserver wird auf Port 3000 erstellt mit Ausgabe in der Konsole. Yay.
-app3.listen(3000, function(){
+
+//get-response auf die Ressource /planeten
+app3.get('/planeten', function (req, res, next) {
+    planetenCollection.findItems(function(error, result){
+        if (error)
+            next(error);
+        else{
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(result));
+        };
+    });
+});
+    
+
+//post-response auf die Ressource /planeten
+app3.post('/planeten', function(req, res, next) {
+    planetenCollection.insert(req.body, function(error, planetenCollection){
+        if (error) next(error);
+        else {
+            //res.write('Daten wurden gespeichert');
+            console.log(req.body.name + ' wurde zur Datenbank hinzugefuegt!');
+        }
+    });
+    // Dokument an Topic '/planeten' publishen
+	var publication = pubSubClient.publish('/planeten', req.body);
+
+	// Promise handler wenn Publish erfolgreich
+	publication.then(function() {
+		// Response HTTP status code 200 an Client
+		res.writeHead(200, 'OK');
+		// Name vom Objekt in der Konsole ausgeben
+		console.log(req.body.name + ' published to "/planeten"!');
+		res.end();
+	// Promise handler wenn Publish fehlgeschlagen
+	}, function(error) {
+		next(error);
+	});
+});
+
+//Webserver wird auf Port 3000 erstellt.
+server.listen(3000, function(){
 	console.log('Express server is running...');
 });
     
