@@ -1,36 +1,57 @@
 <html>
     <head>
-        <title>WBA2 - Week 2</title>
+        <title>Projekt: Mitfahrgelegenheit</title>
         <!--Einbindung von jQuery (Nur mit Internetverbindung?)-->
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <!-- Faye laden -->
         <script src='/faye/client.js'></script>
     </head>
     <body>
-        <h2>Fahrten</h2>
-        <!-- Tabellenkopf, neue Planeten werden hier hinzugefuegt -->
+        <nav> 
+            <a href="/">Home</a>
+            <a href="Struktur.html">Struktur</a>
+            <a href="Struktur.html">Struktur</a>
+        </nav>
+        <h2>Unsere fahrten</h2>
+        <!-- Tabellenkopf, neue fahrten werden hier hinzugefuegt -->
         <table id='tabelle' border='1'>
             <tr>
-                <th>Planetenname</th>
-                <th>Durchmesser</th>
-                <th>Entfernung zur Sonne</th>
+                <th>Username</th>
+                <th>Abfahrtsort</th>
+                <th>Ankunftsort</th>
+                <th>Datum</th>
+                <th>Abfahrtszeit</th>
+                <th>Freie Plätze</th>
+                <th>Link</th>
             </tr>
         </table>
 
-        <!-- Formular fuer das Hinzufügen neuer Planeten-->
-        <form name='form' id='form' action='/planeten' method='POST'>
+        <!-- Formular fuer das Hinzufügen neuer Fahrten -->
+        <form name='form' id='form' action='/fahrten' method='POST'>
             <table>
                 <tr>
-                    <td>Planetenname</td>
+                    <td>Username</td>
                     <td><input name='name' id='name' type='text' width="100%"></input></td>
                 </tr>
                 <tr>
-                    <td>Durchmesser</td>
-                    <td><input name='diameter' id='diameter' type='text' width="100%"></input></td>
+                    <td>Abfahrtsort</td>
+                    <td><input name='start' id='start' type='text' width="100%"></input></td>
                 </tr>
                 <tr>
-                    <td>Entfernung zur Sonne</td>
-                    <td><input name='distance' id='distance' type='text' width="100%"></input></td>
+                    <td>Ankunftsort</td>
+                    <td><input name='destination' id='destination' type='text' width="100%"></input></td>
+                </tr>
+                <tr>
+                    <td>Datum</td>
+                    <td><input name='date' id='date' type='text' width="100%"></input></td>
+                </tr>
+                <tr>
+                    <td>Abfahrtszeit</td>
+                    <td><input name='time' id='time' type='text' width="100%"></input></td>
+                </tr>
+                <tr>
+                    <td>Freie Plätze</td>
+                    <td><input name='seats' id='seats' type='text' width="100%"></input></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -42,8 +63,8 @@
         <script type="text/javascript">
             // PubSub client erstellen
             var client = new Faye.Client('/faye');
-            // Topic '/planeten' subscriben
-            var subscription = client.subscribe('/planeten', function(message) {
+            // Topic '/fahrten' subscriben
+            var subscription = client.subscribe('/fahrten', function(message) {
                 addTableRow(message);
             });
             // Definition der 'action'
@@ -53,13 +74,16 @@
                 // Formulardaten werden als JSON Objekt gespeichert
                 var data = {
                     name:       $('#name').val(),
-                    diameter:   $('#diameter').val(),
-                    distance:   $('#distance').val()
+                    start:   $('#start').val(),
+                    destination:   $('#destination').val(),
+                    date: $('#date').val(),
+                    time: $('#time').val(),
+                    seats: $('#seats').val()
                 };
-                // post auf Ressource '/planeten'
+                // post auf Ressource '/fahrten'
                 var ajaxPost = $.ajax({
                     type: 'POST',
-                    url: '/planeten',
+                    url: '/fahrten',
                     data: JSON.stringify(data),
                     contentType: 'application/json'
                 });
@@ -75,16 +99,16 @@
                 });
             });
     
-            // get auf Ressource '/planeten'
+            // get auf Ressource '/fahrten'
             var ajaxGet = $.ajax({
-                url: '/planeten',
+                url: '/fahrten',
                 type: 'GET',
                 contentType: 'application/json'
             });
             // Tabellenerweiterung mit Aufruf von addTableRow wenn Promise erfolgreich
             ajaxGet.done(function(data) {
-                data.forEach(function(planet) {
-                addTableRow(planet);
+                data.forEach(function(fahrt) {
+                addTableRow(fahrt);
                 });
             });
             // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
@@ -92,8 +116,8 @@
                 alert('Fehler:' + JSON.stringify(e) + ')');
             });
             // Zeile/Dokument zur Tabelle hinzufuegen 
-            var addTableRow = function(planet) {
-                $('#tabelle').append('<tr><td>' + planet.name + '</td><td>' + planet.diameter + '</td><td>' + planet.distance + '</td></tr>');
+            var addTableRow = function(fahrt) {
+                $('#tabelle').append('<tr><td>' + fahrt.name + '</td><td>' + fahrt.start + '</td><td>' + fahrt.destination + '</td><td>' + fahrt.date + '</td><td>' + fahrt.time + '</td><td>' + fahrt.seats + '</td><td>'+ '<a href="/fahrten/'+ fahrt._id + '">link</a></td></tr>');
             };
         </script>
     </body>

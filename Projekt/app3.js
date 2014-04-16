@@ -4,18 +4,18 @@ var express = require('express');
 var mongoDB = require('mongoskin');
 var faye = require('faye');
 
-var app = express();
-var server = http.createServer(app);
+var app3 = express();
+var server = http.createServer(app3);
 
 // Verbindung zur mongoDB
 
 var db =mongoDB.db('mongodb://localhost/mydb?auto_reconnect=true',{safe: true});
 
-// Collection "planeten" binden
+// Collection "fahrten" binden
 
 db.bind('fahrten');
 
-var fahrten = db.fahrten;
+var fahrtenCollection = db.fahrten;
 
 // Faye
 // NoteAdapter konfigurieren
@@ -30,14 +30,14 @@ bayeux.attach(server);
 var pubSubClient = bayeux.getClient();
 
 //Verzeichnisdefinierung fuer den Zugriff von Aussen
-app.use(express.static(__dirname+'/public'));
+app3.use(express.static(__dirname+'/public'));
 
 //benötigt um Informationen des Requests zu parsen
-app.use(express.json());
-app.use(express.urlencoded());
+app3.use(express.json());
+app3.use(express.urlencoded());
 
 //Errorhandling
-app.use(function(error, req, res, next) {
+app3.use(function(error, req, res, next) {
     console.error(error.stack);
     res.end(error.message);
     
@@ -45,8 +45,21 @@ app.use(function(error, req, res, next) {
 
 
 //get-response auf die Ressource /fahrten
-app.get('/fahrten', function (req, res, next) {
-    fahrten.findItems(function(error, result){
+app3.get('/fahrten', function (req, res, next) {
+    fahrtenCollection.findItems(function(error, result){
+        if (error)
+            next(error);
+        else{
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(result));
+        };
+    });
+});
+
+//get-response auf die Ressource /fahrten
+app3.get('/fahrten/', function (req, res, next) {
+    console.log(JSON.stringify(req.head));
+    fahrtenCollection.findItems(function(error, result){
         if (error)
             next(error);
         else{
@@ -58,12 +71,12 @@ app.get('/fahrten', function (req, res, next) {
     
 
 //post-response auf die Ressource /fahrten
-app.post('/fahrten', function(req, res, next) {
-    fahrten.insert(req.body, function(error, fahrten){
+app3.post('/fahrten', function(req, res, next) {
+    fahrtenCollection.insert(req.body, function(error, fahrtenCollection){
         if (error) next(error);
         else {
             //res.write('Daten wurden gespeichert');
-            console.log(req.body.name + ' wurde zur Datenbank hinzugefuegt!');
+            console.log(JSON.stringify(req.body) + ' wurde zur Datenbank hinzugefuegt!');
         }
     });
     // Dokument an Topic '/fahrten' publishen

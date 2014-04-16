@@ -1,8 +1,8 @@
 {
-  "name": "app3",
+  "name": "app",
   "version": "0.0.1",
   "private": true,
-  "main": "app3.js",
+  "main": "app.js",
   "dependencies": {
     "express": "*",
     "mongoskin": "*",
