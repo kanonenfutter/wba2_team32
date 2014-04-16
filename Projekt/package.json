@@ -1,0 +1,11 @@
+{
+  "name": "app3",
+  "version": "0.0.1",
+  "private": true,
+  "main": "app3.js",
+  "dependencies": {
+    "express": "*",
+    "mongoskin": "*",
+    "faye": "*"
+  }
+}

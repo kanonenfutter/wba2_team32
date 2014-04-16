@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <title>WBA2 - Week 2</title>
+        <!--Einbindung von jQuery (Nur mit Internetverbindung?)-->
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <!-- Faye laden -->
+        <script src='/faye/client.js'></script>
+    </head>
+    <body>
+        <h2>Fahrten</h2>
+        <!-- Tabellenkopf, neue Planeten werden hier hinzugefuegt -->
+        <table id='tabelle' border='1'>
+            <tr>
+                <th>Planetenname</th>
+                <th>Durchmesser</th>
+                <th>Entfernung zur Sonne</th>
+            </tr>
+        </table>
+
+        <!-- Formular fuer das Hinzufügen neuer Planeten-->
+        <form name='form' id='form' action='/planeten' method='POST'>
+            <table>
+                <tr>
+                    <td>Planetenname</td>
+                    <td><input name='name' id='name' type='text' width="100%"></input></td>
+                </tr>
+                <tr>
+                    <td>Durchmesser</td>
+                    <td><input name='diameter' id='diameter' type='text' width="100%"></input></td>
+                </tr>
+                <tr>
+                    <td>Entfernung zur Sonne</td>
+                    <td><input name='distance' id='distance' type='text' width="100%"></input></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type='submit' name='submit' value='Absenden'></input></td>
+                </tr>
+        
+            </table>
+        </form>
+        <script type="text/javascript">
+            // PubSub client erstellen
+            var client = new Faye.Client('/faye');
+            // Topic '/planeten' subscriben
+            var subscription = client.subscribe('/planeten', function(message) {
+                addTableRow(message);
+            });
+            // Definition der 'action'
+            $('#form').submit(function(event) {
+                //Verhindert das Standard-Verhalten von submit
+                event.preventDefault();
+                // Formulardaten werden als JSON Objekt gespeichert
+                var data = {
+                    name:       $('#name').val(),
+                    diameter:   $('#diameter').val(),
+                    distance:   $('#distance').val()
+                };
+                // post auf Ressource '/planeten'
+                var ajaxPost = $.ajax({
+                    type: 'POST',
+                    url: '/planeten',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json'
+                });
+                // Popup. Serverseitiges res.writeHead(200) erforderlich
+                ajaxPost.done(function() {
+                    alert(data.name+' wurde hinzugefügt.');
+                    // Formular wird zurueckgesetzt
+                    $('#form')[0].reset();
+                });
+                // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
+                ajaxPost.fail(function(e) {
+                    alert(data.name + ' konnte nicht hinzugefuegt werden. (' + JSON.stringify(e) + ')');
+                });
+            });
+    
+            // get auf Ressource '/planeten'
+            var ajaxGet = $.ajax({
+                url: '/planeten',
+                type: 'GET',
+                contentType: 'application/json'
+            });
+            // Tabellenerweiterung mit Aufruf von addTableRow wenn Promise erfolgreich
+            ajaxGet.done(function(data) {
+                data.forEach(function(planet) {
+                addTableRow(planet);
+                });
+            });
+            // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
+            ajaxGet.fail(function(e) {
+                alert('Fehler:' + JSON.stringify(e) + ')');
+            });
+            // Zeile/Dokument zur Tabelle hinzufuegen 
+            var addTableRow = function(planet) {
+                $('#tabelle').append('<tr><td>' + planet.name + '</td><td>' + planet.diameter + '</td><td>' + planet.distance + '</td></tr>');
+            };
+        </script>
+    </body>
+</html>
