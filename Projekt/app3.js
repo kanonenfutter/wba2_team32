@@ -57,16 +57,25 @@ app3.get('/fahrten', function (req, res, next) {
 });
 
 //get-response auf die Ressource /fahrten
-app3.get('/fahrten/', function (req, res, next) {
-    console.log(JSON.stringify(req.head));
-    fahrtenCollection.findItems(function(error, result){
-        if (error)
-            next(error);
-        else{
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(result));
-        };
+app3.get('/fahrten/*', function (req, res, next) {
+    console.log(JSON.stringify(req.url));
+    console.log(JSON.stringify(req.params[0]));
+    var objID = req.params[0];
+//    fahrtenCollection.find({_id : ObjectId("405")}, function(error, result){
+//        if (error)
+//            next(error);
+//        else{
+//            res.writeHead(200, {'Content-Type': 'application/json'});
+//            res.end(JSON.stringify(result));
+//        };
+//    });
+    //console.log(fahrtenCollection.find({"_id" : ObjectId("534e623eb182540000b48831")}));
+    fahrtenCollection.find({_id: db.ObjectID.createFromHexString('534e623eb182540000b48831')}).toArray(function(err, result) {
+        console.log('Band members of Road Crew');
+        console.log(result);
     });
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end();
 });
     
 
