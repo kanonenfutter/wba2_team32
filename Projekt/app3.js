@@ -3,7 +3,7 @@ var http = require('http');
 var express = require('express');
 var mongoDB = require('mongoskin');
 var faye = require('faye');
-
+var BSON = require('mongodb').BSONPure;
 var app3 = express();
 var server = http.createServer(app3);
 
@@ -57,21 +57,12 @@ app3.get('/fahrten', function (req, res, next) {
 });
 
 //get-response auf die Ressource /fahrten
-app3.get('/fahrten/*', function (req, res, next) {
-    console.log(JSON.stringify(req.url));
-    console.log(JSON.stringify(req.params[0]));
-    var objID = req.params[0];
-//    fahrtenCollection.find({_id : ObjectId("405")}, function(error, result){
-//        if (error)
-//            next(error);
-//        else{
-//            res.writeHead(200, {'Content-Type': 'application/json'});
-//            res.end(JSON.stringify(result));
-//        };
-//    });
-    //console.log(fahrtenCollection.find({"_id" : ObjectId("534e623eb182540000b48831")}));
-    fahrtenCollection.find({_id: db.ObjectID.createFromHexString('534e623eb182540000b48831')}).toArray(function(err, result) {
-        console.log('Band members of Road Crew');
+app3.get('/fahrten/:id/*', function (req, res, next) {
+    console.log("GET: " + JSON.stringify(req.url));
+    console.log("param: _ID:" + req.params.id);
+    var obj_id = BSON.ObjectID.createFromHexString(req.params.id);
+    fahrtenCollection.find({_id: obj_id}).toArray(function(err, result) {
+        console.log('Result:');
         console.log(result);
     });
     res.writeHead(200, {'Content-Type': 'application/json'});

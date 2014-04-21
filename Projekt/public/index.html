@@ -22,7 +22,7 @@
                 <th>Datum</th>
                 <th>Abfahrtszeit</th>
                 <th>Freie Plätze</th>
-                <th>Link</th>
+                <th>Details</th>
             </tr>
         </table>
 
@@ -117,7 +117,7 @@
             });
             // Zeile/Dokument zur Tabelle hinzufuegen 
             var addTableRow = function(fahrt) {
-                $('#tabelle').append('<tr><td>' + fahrt.name + '</td><td>' + fahrt.start + '</td><td>' + fahrt.destination + '</td><td>' + fahrt.date + '</td><td>' + fahrt.time + '</td><td>' + fahrt.seats + '</td><td>'+ '<a href="/fahrten/'+ fahrt._id + '">link</a></td></tr>');
+                $('#tabelle').append('<tr><td>' + fahrt.name + '</td><td>' + fahrt.start + '</td><td>' + fahrt.destination + '</td><td>' + fahrt.date + '</td><td>' + fahrt.time + '</td><td>' + fahrt.seats + '</td><td>'+ '<a href="/fahrten/'+ fahrt._id + '/view.html">mehr</a></td></tr>');
             };
         </script>
     </body>
