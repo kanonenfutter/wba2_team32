@@ -8,11 +8,15 @@
     </head>
     <body>
         <nav> 
-            <a href="/">Home</a>
-            <a href="Struktur.html">Struktur</a>
-            <a href="Struktur.html">Struktur</a>
+            <a href="/">Home</a> /
+            <a href="/add.html">Fahrt hinzufügen</a> /
+            <a href="/meine_fahrten.html">Meine Fahrten</a> / Fahrtensuche
+            <form name='search' id='search' action='/fahrten' method='GET'>
+                <input name='search' id='search' type='text' value="Zielort"></input>
+                <input type='submit' name='submit' value='Suchen'></input>
+            </form>
         </nav>
-        <h2>Unsere fahrten</h2>
+        <h2>Alle angebotene Fahrten</h2>
         <!-- Tabellenkopf, neue fahrten werden hier hinzugefuegt -->
         <table id='tabelle' border='1'>
             <tr>
@@ -26,77 +30,12 @@
             </tr>
         </table>
 
-        <!-- Formular fuer das Hinzufügen neuer Fahrten -->
-        <form name='form' id='form' action='/fahrten' method='POST'>
-            <table>
-                <tr>
-                    <td>Username</td>
-                    <td><input name='name' id='name' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Abfahrtsort</td>
-                    <td><input name='start' id='start' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Ankunftsort</td>
-                    <td><input name='destination' id='destination' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Datum</td>
-                    <td><input name='date' id='date' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Abfahrtszeit</td>
-                    <td><input name='time' id='time' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Freie Plätze</td>
-                    <td><input name='seats' id='seats' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type='submit' name='submit' value='Absenden'></input></td>
-                </tr>
-        
-            </table>
-        </form>
         <script type="text/javascript">
             // PubSub client erstellen
             var client = new Faye.Client('/faye');
             // Topic '/fahrten' subscriben
             var subscription = client.subscribe('/fahrten', function(message) {
                 addTableRow(message);
-            });
-            // Definition der 'action'
-            $('#form').submit(function(event) {
-                //Verhindert das Standard-Verhalten von submit
-                event.preventDefault();
-                // Formulardaten werden als JSON Objekt gespeichert
-                var data = {
-                    name:       $('#name').val(),
-                    start:   $('#start').val(),
-                    destination:   $('#destination').val(),
-                    date: $('#date').val(),
-                    time: $('#time').val(),
-                    seats: $('#seats').val()
-                };
-                // post auf Ressource '/fahrten'
-                var ajaxPost = $.ajax({
-                    type: 'POST',
-                    url: '/fahrten',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json'
-                });
-                // Popup. Serverseitiges res.writeHead(200) erforderlich
-                ajaxPost.done(function() {
-                    alert(data.name+' wurde hinzugefügt.');
-                    // Formular wird zurueckgesetzt
-                    $('#form')[0].reset();
-                });
-                // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
-                ajaxPost.fail(function(e) {
-                    alert(data.name + ' konnte nicht hinzugefuegt werden. (' + JSON.stringify(e) + ')');
-                });
             });
     
             // get auf Ressource '/fahrten'

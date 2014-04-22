@@ -1,8 +1,55 @@
 <html>
     <head>
+        <title>Projekt: Mitfahrgelegenheit</title>
+        <!--Einbindung von jQuery (Nur mit Internetverbindung?)-->
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <!-- Faye laden -->
+        <script src='/faye/client.js'></script>
     </head>
     <body>
-        Hi
-    </body>
+        <nav> 
+            <a href="/">Home</a>
+            <a href="/add.html">Fahrt hinzufügen</a>
+            <a href="/meine_fahrten.html">Meine Fahrten</a>
+        </nav>
+        <h2>Fahrtdetails</h2>
 
+        <!-- Tabellenkopf, neue fahrten werden hier hinzugefuegt -->
+        <table id='output' border='1'>
+            <tr>
+                <th>Username</th>
+                <th>Abfahrtsort</th>
+                <th>Ankunftsort</th>
+                <th>Datum</th>
+                <th>Abfahrtszeit</th>
+                <th>Freie Plätze</th>
+                <th>Details</th>
+            </tr>
+        </table>
+        
+        <script type="text/javascript">
+            // get auf Ressource '/fahrten/:id/*'
+            var ajaxGet = $.ajax({
+                url: '/fahrten/:id/view.html',
+                type: 'GET',
+                contentType: 'application/json'
+            });
+            // Tabellenerweiterung mit Aufruf von addTableRow wenn Promise erfolgreich
+            ajaxGet.done(function(data) {
+                data.forEach(function(fahrt) {
+                addTableRow(fahrt);
+                });
+            });
+            // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
+            ajaxGet.fail(function(e) {
+                alert('Fehler:' + JSON.stringify(e) + ')');
+            });
+            // Zeile/Dokument zur Tabelle hinzufuegen 
+            var addTableRow = function(fahrt) {
+                $('#output').append('<tr><td>' + fahrt.name + '</td><td>' + fahrt.start + '</td><td>' + fahrt.destination + '</td><td>' + fahrt.date + '</td><td>' + fahrt.time + '</td><td>' + fahrt.seats + '</td><td>'+ '<a href="/fahrten/'+ fahrt._id + '">mehr</a></td></tr>');
+            };
+    
+
+        </script>
+    </body>
 </html>
