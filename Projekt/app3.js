@@ -57,6 +57,18 @@ app3.get('/fahrten', function (req, res, next) {
 });
 
 //get-response auf die Ressource /fahrten
+app3.get('/bbb', function (req, res, next) {
+    console.log("GET: " + JSON.stringify(req.url));
+    console.log("param: _ID:" + req.params.id);
+    var obj_id = BSON.ObjectID.createFromHexString(req.params.id);
+    fahrtenCollection.find({_id: obj_id}).toArray(function(err, result) {
+        console.log('Result:');
+        console.log(result);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    });
+});
+
 app3.get('/fahrten/:id/view.html', function (req, res, next) {
     console.log("GET: " + JSON.stringify(req.url));
     console.log("param: _ID:" + req.params.id);
@@ -94,6 +106,15 @@ app3.post('/fahrten', function(req, res, next) {
 		next(error);
 	});
 });
+app3.delete('/fahrten', function(req, res, next) {
+    fahrtenCollection.remove({_id: obj_id}, function(error, fahrtenCollection){
+        if (error) next(error);
+        else {
+            //res.write('Daten wurden gespeichert');
+            console.log(req.body + ' wurde aus der Datenbank gelöscht!');
+        }
+    });
+    
 
 //Webserver wird auf Port 3000 erstellt.
 server.listen(3000, function(){
