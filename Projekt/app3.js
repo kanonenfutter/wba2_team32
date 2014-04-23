@@ -57,7 +57,7 @@ app3.get('/fahrten', function (req, res, next) {
 });
 
 
-app3.get('/fahrten/:id/view.html', function (req, res, next) {
+app3.get('/fahrten/:id', function (req, res, next) {
     console.log("GET: " + JSON.stringify(req.url));
     console.log("param: _ID:" + req.params.id);
     var obj_id = BSON.ObjectID.createFromHexString(req.params.id);
@@ -102,6 +102,7 @@ app3.delete('/fahrten', function(req, res, next) {
             console.log(req.body + ' wurde aus der Datenbank gelöscht!');
         }
     });
+});
     
 
 //Webserver wird auf Port 3000 erstellt.
