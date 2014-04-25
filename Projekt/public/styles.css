@@ -1,0 +1,290 @@
+*{
+    /* A universal CSS reset */
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-size:14px;
+    color:#fff;
+    background:#fff no-repeat;
+
+    /* CSS3 Radial Gradients */
+    background-image:-moz-radial-gradient(center 50px 45deg, circle farthest-corner, #96e0cf 150px, #6ca598 600px);
+    background-image:-webkit-gradient(radial, 50% 0, 150, 50% 0, 300, from(#94ABC3), to(#6ca598));
+
+    font-family:Arial, Verdana;
+}
+
+/****************************************************/	
+/* START NAV MENU */
+nav {
+    background-color:#D83C3C;
+    border-radius: 10px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4) inset, 0px 1px 0px rgba(255, 255, 255, 0.2);
+/*    height:40px;*/
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    text-decoration:none;
+}
+ 
+ 
+/*nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ 
+nav ul li {
+  display: block;
+  position: relative;
+  float: left;
+ 
+}
+ 
+nav li ul {
+  display: none;
+}
+ 
+nav ul li a {
+  display: block;
+  text-decoration: none;
+  padding: 7px 15px 3px 15px;
+  background: #2C5463;
+  color: #ffffff; 
+  margin-left: 5px;
+  white-space: nowrap;
+  height:50px;  //Width and height of top-level nav items 
+  width:150px;
+  text-align:center;
+    border-radius: 5px;
+ 
+}*/
+ 
+ 
+nav a:hover {
+  background: #94ABC3;
+}
+ 
+/*Listmenues only*/
+/*nav ul li ul li a {
+    text-align:left; /* Top-level items are centered, but nested list items are left-aligned */
+}
+*/
+/* END NAV MENU */
+
+
+/****************************************************/	
+/*START CONTENT CONTAINER*/
+
+#container {
+    width:90%;
+    padding-top:50px;
+    margin: 0px auto 0px;
+
+}
+/*
+h1.content {
+    margin: 0.5em auto 1em;
+}
+
+h2.content {
+     margin: 0.5em auto 1em;
+}
+*/
+.content {
+    padding: 5px 0px 20px 20px;    
+    margin: 10px auto;
+}
+
+#table {
+}
+
+th {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA 
+}
+
+td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 6px 6px 12px;
+	color: #6D929B;
+}
+
+
+td.alt {
+	background: #F5FAFA;
+	color: #B4AA9D;
+}
+    
+
+ 
+/* Misc visuals
+----------------------------------*/
+ 
+ 
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-left,
+.ui-corner-bl {
+    border-bottom-left-radius: 12px;
+}
+
+
+
+
+
+.clear {
+	clear:both;
+   }
+ 
+
+/*Input form style*/
+
+/*input {
+    color: #000;
+padding: 10px;
+outline:none;   
+float:left;
+border: solid 1px #adadad;
+width: 230px;
+transition: all 2s ease-in-out;
+-webkit-transition: all 2s ease-in-out;
+-moz-transition: all 2s ease-in-out;
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+border-radius: 8px;
+-moz-box-shadow:inset 0 0 5px 5px #E6E6E6;
+-webkit-box-shadow:inset 0 0 5px 5px #E6E6E6;
+box-shadow:inset 0 0 5px 5px #E6E6E6;
+clear: right;
+}*/
+
+
+
+
+
+
+/*form wrapper*/
+/* Form wrapper styling */
+.form-wrapper {
+    width: 450px;
+    padding: 15px;
+    background: #444;
+    background: rgba(0,0,0,.2);
+    border-radius: 10px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
+}
+ 
+/* Form text input */
+ 
+.form-wrapper input {
+    width: 330px;
+    height: 20px;
+    padding: 10px 5px;
+    float: left;   
+    font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    border: 0;
+    background: #eee;
+    border-radius: 3px 0 0 3px;     
+}
+ 
+.form-wrapper input:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+ 
+.form-wrapper input::-webkit-input-placeholder {
+   color: #999;
+   font-weight: normal;
+   font-style: italic;
+}
+ 
+.form-wrapper input:-moz-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}
+ 
+.form-wrapper input:-ms-input-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}   
+ 
+/* Form submit button */
+.form-wrapper button {
+    overflow: visible;
+    position: relative;
+    float: right;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 40px;
+    width: 110px;
+    font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color: #fff;
+    text-transform: uppercase;
+    background: #d83c3c;
+    border-radius: 0 3px 3px 0;     
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}  
+   
+.form-wrapper button:hover{    
+    background: #e54040;
+}  
+   
+.form-wrapper button:active,
+.form-wrapper button:focus{  
+    background: #c42f2f;
+    outline: 0;  
+}
+ 
+.form-wrapper button:before { /* left arrow */
+    content: '';
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #d83c3c transparent;
+    top: 12px;
+    left: -6px;
+}
+ 
+.form-wrapper button:hover:before{
+    border-right-color: #e54040;
+}
+ 
+.form-wrapper button:focus:before,
+.form-wrapper button:active:before{
+        border-right-color: #c42f2f;
+}     
+ 
+.form-wrapper button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+    border: 0;
+    padding: 0;
+}    
+
+.cf:before, .cf:after{
+    content:"";
+    display:table;
+}
+ 
+.cf:after{
+    clear:both;
+}
+ 
+.cf{
+    zoom:1;
+}  

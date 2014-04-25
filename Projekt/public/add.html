@@ -5,49 +5,130 @@
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <!-- Faye laden -->
         <script src='/faye/client.js'></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
     </head>
     <body>
-        <nav> 
-            <a href="/">Home</a> /
-            <a href="/add.html">Fahrt hinzufügen</a> /
-            <a href="/meine_fahrten.html">Meine Fahrten</a>
-        </nav>
-        <h2>Fahrt hinzufügen</h2>
+        <div class="navbar navbar-inverse">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><a href="/add.html">Fahrt hinzufügen</a></li>
+                    <li><a href="/meine_fahrten.html">Meine Fahrten</a></li> 
+                    <li>Fahrtensuche
+                        <form class="form" name='search' id='search' action='/fahrten' method='GET'>
+                            <input class="input-xlarge" name='search' id='search' type='text' value="Zielort"></input>
+                            <input class="btn btn-default" type='submit' name='submit' value='Suchen'></input>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Fahrt hinzufügen</h2>
+    
+            <!-- Formular fuer das Hinzufügen neuer Fahrten -->
+            <form class="form-horizontal" name='form' id='form' action='/fahrten' method='POST'>
+<!-- alt
+                <table>
+                    <tr>
+                        <td>Username</td>
+                        <td><input class="input-medium" name='name' id='name' type='text' width="100%"></input></td>
+                    </tr>
+                    <tr>
+                        <td>Abfahrtsort</td>
+                        <td><input name='start' id='start' type='text' width="100%"></input></td>
+                    </tr>
+                    <tr>
+                        <td>Ankunftsort</td>
+                        <td><input name='destination' id='destination' type='text' width="100%"></input></td>
+                    </tr>
+                    <tr>
+                        <td>Datum</td>
+                        <td><input name='date' id='date' type='text' width="100%"></input></td>
+                    </tr>
+                    <tr>
+                        <td>Abfahrtszeit</td>
+                        <td><input name='time' id='time' type='text' width="100%"></input></td>
+                    </tr>
+                    <tr>
+                        <td>Freie Plätze</td>
+                        <td><input name='seats' id='seats' type='text' width="100%"></input></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input class="btn btn-default" type='submit' name='submit' value='Absenden'></input></td>
+                    </tr>
+                </table>
+-->
+                <fieldset>
+                <!-- Text input-->
+                <div class="control-group">
+                  <label class="control-label" for="name">Username</label>
+                  <div class="controls">
+                    <input id="name" name="name" type="text" placeholder="" class="input-xlarge">
+                    
+                  </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="control-group">
+                  <label class="control-label" for="start">Abfahrtsort</label>
+                  <div class="controls">
+                    <input id="start" name="start" type="text" placeholder="" class="input-xlarge">
+                    
+                  </div>
+                </div>
 
-        <!-- Formular fuer das Hinzufügen neuer Fahrten -->
-        <form name='form' id='form' action='/fahrten' method='POST'>
-            <table>
-                <tr>
-                    <td>Username</td>
-                    <td><input name='name' id='name' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Abfahrtsort</td>
-                    <td><input name='start' id='start' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Ankunftsort</td>
-                    <td><input name='destination' id='destination' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Datum</td>
-                    <td><input name='date' id='date' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Abfahrtszeit</td>
-                    <td><input name='time' id='time' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td>Freie Plätze</td>
-                    <td><input name='seats' id='seats' type='text' width="100%"></input></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type='submit' name='submit' value='Absenden'></input></td>
-                </tr>
-        
-            </table>
-        </form>
+                <!-- Text input-->
+                <div class="control-group">
+                  <label class="control-label" for="destination">Ankunftsort</label>
+                  <div class="controls">
+                    <input id="destination" name="destination" type="text" placeholder="" class="input-xlarge">
+                    
+                  </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="control-group">
+                  <label class="control-label" for="date">Datum</label>
+                  <div class="controls">
+                    <input id="date" name="date" type="text" placeholder="" class="input-xlarge">
+                    
+                  </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="control-group">
+                  <label class="control-label" for="time">Abfahrtszeit</label>
+                  <div class="controls">
+                    <input id="time" name="time" type="text" placeholder="" class="input-xlarge">
+                    
+                  </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="control-group">
+                  <label class="control-label" for="seats">Freie Plätze</label>
+                  <div class="controls">
+                    <input id="seats" name="seats" type="text" placeholder="" class="input-xlarge">
+                    
+                  </div>
+                </div>
+                
+                <!-- Button -->
+                <div class="control-group">
+                  <label class="control-label" for="submit"></label>
+                  <div class="controls">
+                    <button id="submit" name="submit" class="btn btn-default">Absenden</button>
+                  </div>
+                </div>
+                
+                </fieldset>
+            </form>
+        </div>
         <script type="text/javascript">
             // Definition der 'action'
             $('#form').submit(function(event) {
