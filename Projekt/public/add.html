@@ -3,6 +3,7 @@
         <title>Projekt: Mitfahrgelegenheit</title>
         <!--Einbindung von jQuery (Nur mit Internetverbindung?)-->
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <!-- Faye laden -->
         <script src='/faye/client.js'></script>
         <!-- Latest compiled and minified CSS -->
@@ -16,7 +17,8 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li class="active"><a href="/add.html">Fahrt hinzufügen</a></li>
-                    <li><a href="/meine_fahrten.html">Meine Fahrten</a></li> 
+                    <li><a href="/meine_fahrten.html">Meine Fahrten</a></li>
+                    <li><a href="/login.html">Login</a></li> 
                     <li>Fahrtensuche
                         <form class="form" name='search' id='search' action='/fahrten' method='GET'>
                             <input class="input-xlarge" name='search' id='search' type='text' value="Zielort"></input>
@@ -95,8 +97,9 @@
                 <div class="control-group">
                   <label class="control-label" for="date">Datum</label>
                   <div class="controls">
-                    <input id="date" name="date" type="text" placeholder="" class="input-xlarge">
-                    
+                    <input id="day" type="text" name="day" placeholder="DD" size="1" maxlength="2">
+                    <input id="month" type="text" name="month" placeholder="MM" size="1" maxlength="2">
+                    <input id="year" type="text" name="year" placeholder="YYYY" size="3" maxlength="4">
                   </div>
                 </div>
                 
@@ -104,7 +107,7 @@
                 <div class="control-group">
                   <label class="control-label" for="time">Abfahrtszeit</label>
                   <div class="controls">
-                    <input id="time" name="time" type="text" placeholder="" class="input-xlarge">
+                    <input id="time" name="time" type="text" placeholder="XX:XX" class="input-xlarge" maxlength="5">
                     
                   </div>
                 </div>
@@ -113,8 +116,16 @@
                 <div class="control-group">
                   <label class="control-label" for="seats">Freie Plätze</label>
                   <div class="controls">
-                    <input id="seats" name="seats" type="text" placeholder="" class="input-xlarge">
-                    
+<!--                    <input id="seats" name="seats" type="text" placeholder="" class="input-xlarge"></-->
+                    <select id="seats" name="seats">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                      </select>
                   </div>
                 </div>
                 
@@ -139,7 +150,7 @@
                     name:       $('#name').val(),
                     start:   $('#start').val(),
                     destination:   $('#destination').val(),
-                    date: $('#date').val(),
+                    date: $('#day').val()+'.'+$('#month').val()+'.'+$('#year').val(),
                     time: $('#time').val(),
                     seats: $('#seats').val()
                 };
@@ -161,8 +172,6 @@
                     alert(data.name + ' konnte nicht hinzugefuegt werden. (' + JSON.stringify(e) + ')');
                 });
             });
-    
-
         </script>
     </body>
 </html>

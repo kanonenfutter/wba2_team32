@@ -36,6 +36,8 @@ app3.use(express.static(__dirname+'/public'));
 app3.use(express.json());
 app3.use(express.urlencoded());
 
+app3.use(express.logger('dev'));
+
 //Errorhandling
 app3.use(function(error, req, res, next) {
     console.error(error.stack);
@@ -94,7 +96,10 @@ app3.post('/fahrten', function(req, res, next) {
 		next(error);
 	});
 });
-app3.delete('/fahrten', function(req, res, next) {
+app3.del('/fahrten/:id', function(req, res, next) {
+    console.log("DEL: " + JSON.stringify(req.url));
+    console.log("param: _ID:" + req.params.id);
+    var obj_id = BSON.ObjectID.createFromHexString(req.params.id);
     fahrtenCollection.remove({_id: obj_id}, function(error, fahrtenCollection){
         if (error) next(error);
         else {

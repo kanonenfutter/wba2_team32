@@ -3,23 +3,22 @@
         <title>Projekt: Mitfahrgelegenheit</title>
         <!--Einbindung von jQuery (Nur mit Internetverbindung?)-->
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <!-- Faye laden -->
         <script src='/faye/client.js'></script>
-        <!-- <link rel="stylesheet" type="text/css" href="styles.css">-->
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <!-- Optional theme -->
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-        <script src="javascripts/scripts.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="navbar navbar-inverse">
             <div class="container">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="/add.html">Fahrt hinzufügen</a></li>
-                    <li><a href="/meine_fahrten.html">Meine Fahrten</a></li> 
-                    <li><a href="/login.html">Login</a></li> 
+                    <li><a href="/meine_fahrten.html">Meine Fahrten</a></li>
+                    <li class="active"><a href="/login.html">Login</a></li> 
                     <li>Fahrtensuche
                         <form class="form" name='search' id='search' action='/fahrten' method='GET'>
                             <input class="input-xlarge" name='search' id='search' type='text' value="Zielort"></input>
@@ -29,26 +28,10 @@
                 </ul>
             </div>
         </div>
-        <div class="container">
-            <h2>Alle angebotene Fahrten</h2>
-            <!-- Tabellenkopf, neue fahrten werden hier hinzugefuegt -->
-            <table class="table table-bordered table-striped" id='tabelle' border='1'>
-                <tr>
-                    <th>Username</th>
-                    <th>Abfahrtsort</th>
-                    <th>Ankunftsort</th>
-                    <th>Datum</th>
-                    <th>Abfahrtszeit</th>
-                    <th>Freie Plätze</th>
-                    <th>Details</th>
-                </tr>
-            </table>
-            <div id='output'>
-                test
-            </div>
-        </div>
-
-        <script type="text/javascript">
-        </script>
+<!-login>
+        <form class="form" name='login' id='login' action='/fahrten' method='GET'>
+            <input class="input-xlarge" name='search' id='search' type='text' value="Zielort"></input>
+            <input class="btn btn-default" type='submit' name='submit' value='Suchen'></input>
+        </form>
     </body>
 </html>
