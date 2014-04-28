@@ -78,7 +78,7 @@ app3.post('/fahrten', function(req, res, next) {
         if (error) next(error);
         else {
             //res.write('Daten wurden gespeichert');
-            console.log(JSON.stringify(req.body) + ' wurde zur Datenbank hinzugefuegt!');
+            console.log('Eine Fahrt von User' + JSON.stringify(req.body) + ' wurde zur Datenbank hinzugefuegt!');
         }
     });
     // Dokument an Topic '/fahrten' publishen
@@ -96,7 +96,7 @@ app3.post('/fahrten', function(req, res, next) {
 		next(error);
 	});
 });
-app3.del('/fahrten/:id', function(req, res, next) {
+app3.delete('/fahrten/:id', function(req, res) {
     console.log("DEL: " + JSON.stringify(req.url));
     console.log("param: _ID:" + req.params.id);
     var obj_id = BSON.ObjectID.createFromHexString(req.params.id);
@@ -104,7 +104,7 @@ app3.del('/fahrten/:id', function(req, res, next) {
         if (error) next(error);
         else {
             //res.write('Daten wurden gespeichert');
-            console.log(req.body + ' wurde aus der Datenbank gelöscht!');
+            console.log(obj_id + ' wurde aus der Datenbank gelöscht!');
         }
     });
 });
