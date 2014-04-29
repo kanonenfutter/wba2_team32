@@ -1,9 +1,9 @@
-//Notes: added mongoDB, Pubsub, Errorhandling, edited .post and .get, human readable variables :P, 
 var http = require('http');
 var express = require('express');
 var mongoDB = require('mongoskin');
 var faye = require('faye');
 var BSON = require('mongodb').BSONPure;
+var cookieParser = require('cookie-parser');
 var app3 = express();
 var server = http.createServer(app3);
 
@@ -36,7 +36,11 @@ app3.use(express.static(__dirname+'/public'));
 app3.use(express.json());
 app3.use(express.urlencoded());
 
+//http logger
 app3.use(express.logger('dev'));
+
+//Middleware, benötigt für cookies
+app3.use(express.cookieParser());
 
 //Errorhandling
 app3.use(function(error, req, res, next) {

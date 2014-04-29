@@ -4,31 +4,18 @@
     // Topic '/fahrten' subscriben
     var subscription = client.subscribe('/fahrten', function(message) {
         addTableRow(message);
-    });   
-$(document).ready(function() {
+    });
 
+$(document).ready(function() {
+    var user = "invalid_username";
+    document.getElementById('active_user').innerHTML=user; 
     populateTable();
     // Delete User link click
     $('#tabelle').on('click', 'td a.linkdeletefahrt',  deleteFahrt);
+    // Login User link click
+    $('#loginform').on('click', 'a.linkloginuser',  loginUser);
 
 });
-/*            // get auf Ressource '/fahrten'
-            var ajaxGet = $.ajax({
-                url: '/fahrten',
-                type: 'GET',
-                contentType: 'application/json'
-            });
-            // Tabellenerweiterung mit Aufruf von addTableRow wenn Promise erfolgreich
-            ajaxGet.done(function(data) {
-                data.forEach(function(fahrt) {
-                addTableRow(fahrt);
-                });
-            });
-            // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
-            ajaxGet.fail(function(e) {
-                alert('Fehler:' + JSON.stringify(e) + ')');
-            });*/
-
 
 // Tabelle aufbauen
 function populateTable() {
@@ -77,3 +64,11 @@ function deleteFahrt(event) {
     }
 
 };
+
+function loginUser(username){
+    event.preventDefault();
+    
+    user= document.getElementById('input_username').value;
+    document.getElementById('active_user').innerHTML=user; 
+}
+    
