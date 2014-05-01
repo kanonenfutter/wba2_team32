@@ -62,6 +62,16 @@ app3.get('/fahrten', function (req, res, next) {
     });
 });
 
+app3.get('/results', function (req, res, next) {
+    console.log(req.body);
+    fahrtenCollection.find({destination: "gummersbach"}).toArray(function(err, result) {
+        console.log('Result:');
+        console.log(result);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    });
+});
+
 
 app3.get('/fahrten/:id', function (req, res, next) {
     console.log("GET: " + JSON.stringify(req.url));
