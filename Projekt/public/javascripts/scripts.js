@@ -56,6 +56,7 @@ function deleteFahrt(event) {
             type: 'DELETE',
             url: '/fahrten/' + $(this).attr('rel')
         });
+        location.reload();
     }
     // Else: do nothing
     else {
