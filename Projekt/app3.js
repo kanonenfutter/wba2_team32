@@ -1,8 +1,11 @@
 var http = require('http');
+var path = require('path');
 var express = require('express');
 var mongoDB = require('mongoskin');
 var faye = require('faye');
+var jade = require('jade');
 var BSON = require('mongodb').BSONPure;
+// warscheinlich nicht benötigt
 var cookieParser = require('cookie-parser');
 var app3 = express();
 var server = http.createServer(app3);
@@ -31,6 +34,9 @@ var pubSubClient = bayeux.getClient();
 
 //Verzeichnisdefinierung fuer den Zugriff von Aussen
 app3.use(express.static(__dirname+'/public'));
+
+app3.set('views', path.join(__dirname, 'views'));
+app3.set('view engine', 'jade');
 
 //benötigt um Informationen des Requests zu parsen
 app3.use(express.json());
@@ -77,11 +83,19 @@ app3.get('/fahrten/:id', function (req, res, next) {
     console.log("GET: " + JSON.stringify(req.url));
     console.log("param: _ID:" + req.params.id);
     var obj_id = BSON.ObjectID.createFromHexString(req.params.id);
-    fahrtenCollection.find({_id: obj_id}).toArray(function(err, result) {
-        console.log('Result:');
-        console.log(result);
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(result));
+    fahrtenCollection.find({_id: obj_id}).toArray(function(error, result) {
+        if (error)
+            next(error);
+        else {
+            
+            console.log('Result:');
+            console.log(result);
+            console.log(result[0]);
+//            res.writeHead(200, {'Content-Type': 'application/json'});
+//            res.end(JSON.stringify(result));
+            res.render('details', result[0]);
+            res.end();
+        }
     });
 });
     

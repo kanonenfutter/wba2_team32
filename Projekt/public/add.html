@@ -122,6 +122,7 @@
                     alert('Die Fahrt wurde hinzugefügt.');
                     // Formular wird zurueckgesetzt
                     $('#form')[0].reset();
+                    location.href = "/";
                 });
                 // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
                 ajaxPost.fail(function(e) {

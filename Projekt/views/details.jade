@@ -1,0 +1,59 @@
+html
+  head
+    title Projekt: Mitfahrgelegenheit
+    //
+      Einbindung von jQuery (Nur mit Internetverbindung?)
+    script(src='http://code.jquery.com/jquery-1.11.0.min.js')
+    //
+       Faye laden 
+    script(src='/faye/client.js')
+    //
+       <link rel="stylesheet" type="text/css" href="styles.css">
+    //
+       Latest compiled and minified CSS 
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
+    //
+       Optional theme 
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css')
+    script(src='../javascripts/add.js', type='text/javascript')
+  body
+    .navbar.navbar-inverse
+      .container
+        ul.nav.navbar-nav
+          li
+            a(href='/') Home
+          li
+            a(href='/add.html') Fahrt hinzufügen
+          li
+            a(href='/profile.html') Meine Fahrten
+          li
+            a(href='/login.html') Login
+          li
+            a(href='/search.html') Suche
+          li
+            a#active_user
+    .container
+      h2 Fahrtdetails
+      //
+         Deteils zur Fahrt
+      table#tabelle.table.table-bordered.table-striped(border='1')
+        tr
+          th Fahrer
+          th Abfahrtsort
+          th Ankunftsort
+          th Datum
+          th Abfahrtszeit
+          th Freie Plätze
+          th Aktionen
+        tr
+            td= name
+            td= start
+            td= destination
+            td= date
+            td= time
+            td= seats
+            td null
+      h2 Mögliche Mitfahrer
+        
+        
+        
