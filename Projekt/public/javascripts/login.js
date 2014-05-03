@@ -38,7 +38,7 @@ function getCookie(cname){
 
 function loginUser(){
     var user = document.getElementById('input_username').value;
-    alert("Willkommen" + user);
+    alert("Willkommen " + user);
     setCookie("username", user, 1);
     location.reload();
 };

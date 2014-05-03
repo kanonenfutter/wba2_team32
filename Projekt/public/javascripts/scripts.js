@@ -37,7 +37,7 @@ function populateTable() {
 
 // Zeile/Dokument zur Tabelle hinzufuegen 
 function addTableRow(fahrt) {
-    $('#tabelle').append('<tr><td>' + fahrt.name + '</td><td>' + fahrt.start + '</td><td>' + fahrt.destination + '</td><td>' + fahrt.date + '</td><td>' + fahrt.time + '</td><td>' + fahrt.seats + '</td><td>'+ '<a href="#" class="linkdeletefahrt" rel="'+ fahrt._id +'">delete</a></td></tr>');
+    $('#tabelle').append('<tr><td>' + fahrt.name + '</td><td>' + fahrt.start + '</td><td>' + fahrt.destination + '</td><td>' + fahrt.date + '</td><td>' + fahrt.time + '</td><td>' + fahrt.seats + '</td><td>'+ '<a href="#" class="linkdeletefahrt" rel="'+ fahrt._id +'">delete</a>' + '<a href="/fahrten/'+ fahrt._id + '"> details</a></td></tr>');
     };
 
 // Fahrt entfernen
