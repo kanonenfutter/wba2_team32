@@ -40,5 +40,5 @@ function loginUser(){
     var user = document.getElementById('input_username').value;
     alert("Willkommen " + user);
     setCookie("username", user, 1);
-    location.reload();
+    //location.reload();
 };

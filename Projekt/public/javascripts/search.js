@@ -1,27 +1,24 @@
-
-    // PubSub client erstellen
-    var client = new Faye.Client('/faye');
-    // Topic '/fahrten' subscriben
-    var subscription = client.subscribe('/fahrten', function(message) {
-        addTableRow(message);
-    });
-
 $(document).ready(function() {
     document.getElementById('active_user').innerHTML = getCookie("username"); 
-    populateTable();
+    
     // Delete User link click
-    $('#tabelle').on('click', 'td a.linkdeletefahrt',  deleteFahrt);
+    //$('#tabelle').on('click', 'td a.linkdeletefahrt',  deleteFahrt);
 
-    $('#searchform').on('click', 'a.search',  startsearch);
+    $('#searchform').on('click', '.linksearch',  search);
+
+    
 
 });
 
+
 // Tabelle aufbauen
-function populateTable() {
+function search() {
     // get auf Ressource '/fahrten'
+    alert(document.getElementById('input_search').value);
     $.ajax({
-        url: '/fahrten',
+        url: '/search',
         type: 'GET',
+        data: document.getElementById('input_search').value,
         contentType: 'application/json'
     // Tabellenerweiterung mit Aufruf von addTableRow wenn Promise erfolgreich
     }).done(function(data) {
@@ -40,31 +37,6 @@ function addTableRow(fahrt) {
     $('#tabelle').append('<tr><td>' + fahrt.name + '</td><td>' + fahrt.start + '</td><td>' + fahrt.destination + '</td><td>' + fahrt.date + '</td><td>' + fahrt.time + '</td><td>' + fahrt.seats + '</td><td>'+ '<a href="#" class="linkdeletefahrt" rel="'+ fahrt._id +'">delete</a>' + '<a href="/fahrten/'+ fahrt._id + '"> details</a></td></tr>');
     };
 
-// Fahrt entfernen
-function deleteFahrt(event) {
-
-    event.preventDefault();
-
-    // Popup confirmation dialog
-    var confirmation = confirm('Sind Sie sicher, dass Sie den Eintrag löschen möchten?');
-
-    // Check, if the user confirmed
-    if (confirmation === true) {
-
-        // If they did, do our delete
-        $.ajax({
-            type: 'DELETE',
-            url: '/fahrten/' + $(this).attr('rel')
-        });
-        location.reload();
-    }
-    // Else: do nothing
-    else {
-        return false;
-    }
-
-};
-
 function getCookie(cname){
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -75,4 +47,3 @@ function getCookie(cname){
       }
     return "invalid_user";
 }
-    

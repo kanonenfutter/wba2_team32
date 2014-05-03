@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <!-- Optional theme -->
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-        <script src="javascripts/scripts.js" type="text/javascript"></script>
+        <script src="javascripts/search.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="navbar navbar-inverse">
@@ -25,21 +25,20 @@
                 </ul>
             </div>
         </div>
-<!-login>
         <div class="container">
-            <p class="lead">Fahrtensuche:</p>
-            <form class="form" name='search' id='searchform' action='/results' method='GET'>
+            <div class="page-header">
+                <h2>Fahrtensuche</h2>
+            </div>
+            <form id='searchform' action='/fahrten' method='GET'>
                 <label class="control-label">Zielort</label>
                 <input class="input-xlarge" name='search' id='input_search' type='text'></input>
-                <a href="#" class="xxxxx btn btn-default" id="xxxxx">Suchen</a>
+                <a href="#" class="linksearch btn btn-default">suchen</a>
             </form>
         </div>
-        <div class="container results">
-(results)
-        </div>
         <div class="container">
-            <h2>Alle angebotene Fahrten</h2>
-            <!-- Tabellenkopf, neue fahrten werden hier hinzugefuegt -->
+            <div class="page-header">
+                <h2>Suchergebnisse</h2>
+            </div>
             <table class="table table-bordered table-striped" id='tabelle' border='1'>
                 <tr>
                     <th>Username</th>
@@ -51,9 +50,7 @@
                     <th>Aktionen</th>
                 </tr>
             </table>
-            <div id='output'>
-                test
-            </div>
         </div>
+
     </body>                                   
 </html>

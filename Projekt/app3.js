@@ -46,7 +46,7 @@ app3.use(express.urlencoded());
 app3.use(express.logger('dev'));
 
 //Middleware, benötigt für cookies
-app3.use(express.cookieParser());
+//app3.use(express.cookieParser());
 
 //Errorhandling
 app3.use(function(error, req, res, next) {
@@ -68,13 +68,17 @@ app3.get('/fahrten', function (req, res, next) {
     });
 });
 
-app3.get('/results', function (req, res, next) {
-    console.log(req.body);
-    fahrtenCollection.find({destination: "gummersbach"}).toArray(function(err, result) {
-        console.log('Result:');
-        console.log(result);
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(result));
+app3.get('/search', function (req, res, next) {
+    console.log(req.query);
+    fahrtenCollection.find({name:'kanonenfutter'}).toArray(function(error, result) {
+        if (error)
+            next(error);
+        else {
+            console.log('Result:');
+            console.log(result);
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(result));
+        };
     });
 });
 
@@ -106,7 +110,7 @@ app3.post('/fahrten', function(req, res, next) {
         if (error) next(error);
         else {
             //res.write('Daten wurden gespeichert');
-            console.log('Eine Fahrt von User' + JSON.stringify(req.body) + ' wurde zur Datenbank hinzugefuegt!');
+            console.log('Die Fahrt:' + JSON.stringify(req.body) + ' wurde zur Datenbank hinzugefuegt!');
         }
     });
     // Dokument an Topic '/fahrten' publishen
