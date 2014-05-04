@@ -3,7 +3,6 @@ $(document).ready(function() {
     
     // Delete User link click
     //$('#tabelle').on('click', 'td a.linkdeletefahrt',  deleteFahrt);
-
     $('#searchform').on('click', '.linksearch',  search);
 
     
@@ -13,18 +12,25 @@ $(document).ready(function() {
 
 // Tabelle aufbauen
 function search() {
-    // get auf Ressource '/fahrten'
-    alert(document.getElementById('input_search').value);
+    //Tabelle zurücksetzen
+    $( "#tabelle td" ).remove();
+    //Querystring bauen
+    var query = 'destination=' + document.getElementById('input_search').value;
+    //GET und Suchanfrage auf "/search"
     $.ajax({
         url: '/search',
         type: 'GET',
-        data: document.getElementById('input_search').value,
+        data: query,
         contentType: 'application/json'
     // Tabellenerweiterung mit Aufruf von addTableRow wenn Promise erfolgreich
     }).done(function(data) {
-        data.forEach(function(fahrt) {
-        addTableRow(fahrt);
-        });
+        if (JSON.stringify(data) != '[]') {
+            data.forEach(function(fahrt) {
+                addTableRow(fahrt);
+            });
+        } else {
+            alert('Suche verlief erfolglos');
+        }
     // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
     }).fail(function(e) {
         alert('Fehler:' + JSON.stringify(e) + ')');
@@ -37,6 +43,7 @@ function addTableRow(fahrt) {
     $('#tabelle').append('<tr><td>' + fahrt.name + '</td><td>' + fahrt.start + '</td><td>' + fahrt.destination + '</td><td>' + fahrt.date + '</td><td>' + fahrt.time + '</td><td>' + fahrt.seats + '</td><td>'+ '<a href="#" class="linkdeletefahrt" rel="'+ fahrt._id +'">delete</a>' + '<a href="/fahrten/'+ fahrt._id + '"> details</a></td></tr>');
     };
 
+//Cookie auslesen
 function getCookie(cname){
     var name = cname + "=";
     var ca = document.cookie.split(';');

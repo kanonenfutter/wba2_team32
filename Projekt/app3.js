@@ -69,8 +69,8 @@ app3.get('/fahrten', function (req, res, next) {
 });
 
 app3.get('/search', function (req, res, next) {
-    console.log(req.query);
-    fahrtenCollection.find({name:'kanonenfutter'}).toArray(function(error, result) {
+    console.log(JSON.stringify(req.query));
+    fahrtenCollection.find(req.query).toArray(function(error, result) {
         if (error)
             next(error);
         else {
