@@ -20,6 +20,12 @@ db.bind('fahrten');
 
 var fahrtenCollection = db.fahrten;
 
+// Collection "mitfahrer" binden
+
+db.bind('mitfahrer');
+
+var mitfahrerCollection = db.mitfahrer;
+
 // Faye
 // NoteAdapter konfigurieren
 var bayeux = new faye.NodeAdapter({
@@ -56,7 +62,7 @@ app3.use(function(error, req, res, next) {
 });
 
 
-//get-response auf die Ressource /fahrten
+//get-response auf die Ressource /fahrten. Ausgabe aller Fahrten.
 app3.get('/fahrten', function (req, res, next) {
     fahrtenCollection.findItems(function(error, result){
         if (error)
@@ -68,6 +74,7 @@ app3.get('/fahrten', function (req, res, next) {
     });
 });
 
+//get auf die Ressource /search. Eingabe: Suchanfrage. Ausgabe: Suchergebnisse
 app3.get('/search', function (req, res, next) {
     console.log(JSON.stringify(req.query));
     fahrtenCollection.find(req.query).toArray(function(error, result) {
@@ -82,7 +89,7 @@ app3.get('/search', function (req, res, next) {
     });
 });
 
-
+//get auf die Ressource /fahrten/:id. Detailansicht einer Fahrt
 app3.get('/fahrten/:id', function (req, res, next) {
     console.log("GET: " + JSON.stringify(req.url));
     console.log("param: _ID:" + req.params.id);
@@ -102,32 +109,8 @@ app3.get('/fahrten/:id', function (req, res, next) {
         }
     });
 });
-    
 
-//post-response auf die Ressource /fahrten
-app3.post('/fahrten', function(req, res, next) {
-    fahrtenCollection.insert(req.body, function(error, fahrtenCollection){
-        if (error) next(error);
-        else {
-            //res.write('Daten wurden gespeichert');
-            console.log('Die Fahrt:' + JSON.stringify(req.body) + ' wurde zur Datenbank hinzugefuegt!');
-        }
-    });
-    // Dokument an Topic '/fahrten' publishen
-	var publication = pubSubClient.publish('/fahrten', req.body);
-
-	// Promise handler wenn Publish erfolgreich
-	publication.then(function() {
-		// Response HTTP status code 200 an Client
-		res.writeHead(200, 'OK');
-		// Name vom Objekt in der Konsole ausgeben
-		console.log(req.body.name + ' published to "/fahrten"!');
-		res.end();
-	// Promise handler wenn Publish fehlgeschlagen
-	}, function(error) {
-		next(error);
-	});
-});
+//delete auf die Ressource /fahrten/:id
 app3.delete('/fahrten/:id', function(req, res) {
     console.log("DEL: " + JSON.stringify(req.url));
     console.log("param: _ID:" + req.params.id);
@@ -139,6 +122,52 @@ app3.delete('/fahrten/:id', function(req, res) {
             console.log(obj_id + ' wurde aus der Datenbank gelöscht!');
         }
     });
+});
+
+//post-response auf die Ressource /fahrten
+app3.post('/fahrten', function(req, res, next) {
+    fahrtenCollection.insert(req.body, function(error, fahrtenCollection){
+        if (error) next(error);
+        else {
+            //res.write('Daten wurden gespeichert');
+            console.log('Die Fahrt:' + JSON.stringify(req.body) + ' wurde zur Datenbank hinzugefuegt!');
+            console.log(req.body._id);
+        }
+    });
+    // Dokument an Topic '/fahrten' publishen
+	var publication = pubSubClient.publish('/fahrten', req.body);
+	// Promise handler wenn Publish erfolgreich
+	publication.then(function() {
+		// Response HTTP status code 200 an Client
+		res.writeHead(200, 'OK');
+		// Name vom Objekt in der Konsole ausgeben
+		console.log(req.body._id + ' published to "/fahrten"!');
+		res.end();
+	// Promise handler wenn Publish fehlgeschlagen
+	}, function(error) {
+		next(error);
+	});
+});
+
+//post-response auf die Ressource /fahrten/:id
+app3.post('/fahrten/:id', function(req, res, next) {
+    console.log("POST: " + JSON.stringify(req.url));
+    console.log("param: _ID:" + req.params.id);
+    console.log(req.body);
+    console.log(req.body.name);
+    // Dokument an Topic '/fahrten' publishen
+	var publication = pubSubClient.publish('/fahrten/' + req.params.id, req.body);
+	// Promise handler wenn Publish erfolgreich
+	publication.then(function() {
+		// Response HTTP status code 200 an Client
+		res.writeHead(200, 'OK');
+		// Name vom Objekt in der Konsole ausgeben
+		console.log(req.body._id + ' published to "/fahrten"!');
+		res.end();
+	// Promise handler wenn Publish fehlgeschlagen
+	}, function(error) {
+		next(error);
+	});
 });
     
 

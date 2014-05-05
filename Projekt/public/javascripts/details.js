@@ -26,5 +26,5 @@ function getCookie(cname){
 };
 
 function addTableRow(message) {
-    $('#tabelle').append('<tr><td>' + message.name + '<td></td></tr>');
+    $('#responses').append('<tr><td>' + message.name + '<td></td></tr>');
     };
