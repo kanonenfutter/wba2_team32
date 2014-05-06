@@ -12,6 +12,8 @@ $(document).ready(function() {
     //Bei Seitenaufruf: Cookie "username" wird ausgelesen
     document.getElementById('active_user').innerHTML = getCookie("username");
     populateTable();
+    checkSeats();
+    checkUser(getCookie("username"));
 
 
 });
@@ -53,4 +55,18 @@ function addTableRow(message) {
 function decrementSeatsByOne() {
     var temp = parseInt(document.getElementById('seats').innerHTML);
     document.getElementById('seats').innerHTML = temp -1;
+};
+
+function checkSeats() {
+    var available_seats = document.getElementById('seats').innerHTML;
+    if (available_seats < 1){
+        $( '#submit' ).remove();
+        alert('Die Fahrt ist leider schon ausgebucht');
+    }
+};
+
+function checkUser(username){
+    if (username.localeCompare("invalid_user")==0) {
+        $( '#submit' ).remove();
+    }
 }
