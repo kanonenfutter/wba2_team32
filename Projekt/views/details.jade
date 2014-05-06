@@ -51,21 +51,22 @@ html
           th Datum
           th Abfahrtszeit
           th Freie Plätze
-          th Aktionen
+          th Fahrt_ID
         tr
           td= name
           td= start
           td= destination
           td= date
           td= time
-          td= seats
+          td#seats= seats
           td#fahrt_id= _id
       form#form(name='form', action='/fahrten/:id', method='POST')
-        button#submit.btn.btn-default(name='submit') Anfrage senden
-      h2 Mögliche Mitfahrer
+        button#submit.btn.btn-default(name='submit') Nimm mich mit!
+      h2 Mitfahrer
       table#responses.table.table-bordered.table-striped(border='1')
         tr
           th Username
+          th Status
           th Aktionen
     script(type='text/javascript').
       // Definition der 'action'
@@ -75,20 +76,21 @@ html
       // Formulardaten werden als JSON Objekt gespeichert
       var data = {
       name: getCookie("username"),
+      status: "Unbeantwortet",
       fahrt_id: document.getElementById('fahrt_id').innerHTML,
       };
       alert(JSON.stringify(data));
       // post auf Ressource '/fahrten'
       var ajaxPost = $.ajax({
       type: 'POST',
-      url: window.location.pathname,
+      url: window.location.pathname + '/anfragen',
       data: JSON.stringify(data),
       contentType: 'application/json'
       });
       // Popup. Serverseitiges res.writeHead(200) erforderlich
       ajaxPost.done(function() {
       alert('Die Anfrage wurde hinzugefügt.');
-      
+      $( '#form' ).remove();
       });
       // Popup mit Fehlermeldung wenn Promise fehlgeschlagen
       ajaxPost.fail(function(e) {

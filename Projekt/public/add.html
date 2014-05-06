@@ -109,7 +109,7 @@
                     destination:   $('#destination').val(),
                     date: $('#day').val()+'.'+$('#month').val()+'.'+$('#year').val(),
                     time: $('#time').val(),
-                    seats: $('#seats').val()
+                    seats: parseInt($('#seats').val())
                 };
                 // post auf Ressource '/fahrten'
                 var ajaxPost = $.ajax({

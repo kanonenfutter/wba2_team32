@@ -110,6 +110,23 @@ app3.get('/fahrten/:id', function (req, res, next) {
     });
 });
 
+//get auf die Ressource /fahrten/:id/anfragen.
+app3.get('/fahrten/:id/anfragen', function (req, res, next) {
+    console.log("GET: " + JSON.stringify(req.url));
+    console.log("param: fahrt_id:" + req.params.id);
+    mitfahrerCollection.find({fahrt_id: req.params.id}).toArray(function(error, result) {
+        console.log("suche auf mitfahrer");
+        if (error)
+            next(error);
+        else {
+            console.log('Result:');
+            console.log(result);
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(result));
+        }
+    });
+});
+
 //delete auf die Ressource /fahrten/:id
 app3.delete('/fahrten/:id', function(req, res) {
     console.log("DEL: " + JSON.stringify(req.url));
@@ -149,20 +166,34 @@ app3.post('/fahrten', function(req, res, next) {
 	});
 });
 
-//post-response auf die Ressource /fahrten/:id
-app3.post('/fahrten/:id', function(req, res, next) {
+//post-response auf die Ressource /fahrten/:id/anfragen
+app3.post('/fahrten/:id/anfragen', function(req, res, next) {
     console.log("POST: " + JSON.stringify(req.url));
     console.log("param: _ID:" + req.params.id);
     console.log(req.body);
     console.log(req.body.name);
-    // Dokument an Topic '/fahrten' publishen
-	var publication = pubSubClient.publish('/fahrten/' + req.params.id, req.body);
+    mitfahrerCollection.insert(req.body, function(error, mitfahrerCollection){
+        if (error) next(error);
+        else {
+            console.log('Anfrage:' + JSON.stringify(req.body) + ' wurde zur Datenbank hinzugefuegt!');
+            console.log(req.body._id);
+        }
+    });
+    var obj_id = BSON.ObjectID.createFromHexString(req.params.id);
+    fahrtenCollection.update({_id: obj_id}, {'$inc':{seats:-1}}, function(err) {
+        if (err) throw err;
+        console.log('Updated!');
+    });
+
+    
+    // Dokument an Topic '/fahrten/:id/anfragen' publishen
+	var publication = pubSubClient.publish(req.url, req.body);
 	// Promise handler wenn Publish erfolgreich
 	publication.then(function() {
 		// Response HTTP status code 200 an Client
 		res.writeHead(200, 'OK');
 		// Name vom Objekt in der Konsole ausgeben
-		console.log(req.body._id + ' published to "/fahrten"!');
+		console.log(req.body._id + ' published to "/fahrten/' + req.params.id+ '"!');
 		res.end();
 	// Promise handler wenn Publish fehlgeschlagen
 	}, function(error) {
