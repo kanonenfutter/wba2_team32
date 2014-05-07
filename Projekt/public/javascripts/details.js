@@ -49,7 +49,7 @@ function populateTable() {
 };
 
 function addTableRow(message) {
-    $('#responses').append('<tr><td>' + message.name + '</td><td>' + message.status + '</td><td></td></tr>');
+    $('#responses').append('<tr><td>' + message.name + '</td></tr>');
 };
 
 function decrementSeatsByOne() {
@@ -66,7 +66,8 @@ function checkSeats() {
 };
 
 function checkUser(username){
-    if (username.localeCompare("invalid_user")==0) {
+    var form_username = document.getElementById('name').innerHTML;
+    if (username.localeCompare("invalid_user")==0 || username.localeCompare(form_username)==0) {
         $( '#submit' ).remove();
     }
 }

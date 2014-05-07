@@ -53,7 +53,7 @@ html
           th Freie Plätze
           th Fahrt_ID
         tr
-          td= name
+          td#name= name
           td= start
           td= destination
           td= date
@@ -66,8 +66,6 @@ html
       table#responses.table.table-bordered.table-striped(border='1')
         tr
           th Username
-          th Status
-          th Aktionen
     script(type='text/javascript').
       // Definition der 'action'
       $('#form').submit(function(event) {
