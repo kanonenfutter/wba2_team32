@@ -5,8 +5,6 @@ var mongoDB = require('mongoskin');
 var faye = require('faye');
 var jade = require('jade');
 var BSON = require('mongodb').BSONPure;
-// warscheinlich nicht benötigt
-var cookieParser = require('cookie-parser');
 var app3 = express();
 var server = http.createServer(app3);
 
@@ -76,7 +74,6 @@ app3.get('/fahrten', function (req, res, next) {
 
 //get auf die Ressource /search. Eingabe: Suchanfrage. Ausgabe: Suchergebnisse
 app3.get('/search', function (req, res, next) {
-    console.log(JSON.stringify(req.query));
     fahrtenCollection.find(req.query).toArray(function(error, result) {
         if (error)
             next(error);

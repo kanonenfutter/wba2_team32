@@ -8,7 +8,6 @@
         decrementSeatsByOne();
     });
 $(document).ready(function() {
-    alert(topic);
     //Bei Seitenaufruf: Cookie "username" wird ausgelesen
     document.getElementById('active_user').innerHTML = getCookie("username");
     populateTable();
