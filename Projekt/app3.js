@@ -201,6 +201,6 @@ app3.post('/fahrten/:id/anfragen', function(req, res, next) {
 
 //Webserver wird auf Port 3000 erstellt.
 server.listen(3000, function(){
-	console.log('Express server is running...');
+	console.log('Express server is running on port 3000');
 });
     
